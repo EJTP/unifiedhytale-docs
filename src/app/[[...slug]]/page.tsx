@@ -25,8 +25,8 @@ export default async function Page({ params }: PageProps) {
     <DocsPage
       toc={page.data.toc}
       editOnGithub={{
-        owner: "UnifiedHytale",
-        repo: "docs",
+        owner: "EJTP",
+        repo: "unifiedhytale-docs",
         path: `content/docs/${filePath}`,
         sha: "main",
       }}
