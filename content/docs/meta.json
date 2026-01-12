@@ -18,10 +18,10 @@
     "---Moderation---",
     "moderation/queue",
     "moderation/approval",
-    "---Developers---",
+    "---API---",
     "api/index",
-    "api/authentication",
-    "api/endpoints",
-    "api/rate-limits"
+    "api/versions",
+    "api/licenses",
+    "api/cicd"
   ]
 }

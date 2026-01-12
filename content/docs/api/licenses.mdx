@@ -1,0 +1,63 @@
+---
+title: License Verification
+description: Verify licenses from your Hytale plugins/mods to ensure users have valid purchases.
+---
+
+Verify licenses from your Hytale plugins/mods to ensure users have valid purchases.
+
+## Verify License
+
+```
+POST /api/licenses/verify
+```
+
+Verify a license key and get plan details. **No authentication required.**
+
+### Request Body (JSON)
+
+| Field | Description |
+|-------|-------------|
+| `license_key` | **Required.** The license key to verify |
+| `server_id` | Optional. Server identifier for tracking |
+| `player_count` | Optional. Current player count on server |
+
+### Example Request
+
+```bash
+curl -X POST "https://www.unifiedhytale.com/api/licenses/verify" \
+  -H "Content-Type: application/json" \
+  -d '{"license_key": "XXXX-XXXX-XXXX-XXXX", "server_id": "my-server"}'
+```
+
+### Success Response
+
+```json
+{
+  "is_valid": true,
+  "license": {
+    "id": "license-uuid",
+    "license_key": "XXXX-XXXX-XXXX-XXXX",
+    "is_active": true,
+    "expires_at": null
+  },
+  "plan": {
+    "name": "Premium",
+    "allows_commercial_use": true,
+    "max_servers": 5,
+    "max_players": 100
+  }
+}
+```
+
+### Error Response
+
+```json
+{
+  "is_valid": false,
+  "failure_reason": "Invalid or inactive license"
+}
+```
+
+### Implementation Note
+
+Call this endpoint on server startup and periodically during runtime. All verification attempts are logged for analytics.

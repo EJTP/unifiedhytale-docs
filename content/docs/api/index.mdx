@@ -1,89 +1,52 @@
 ---
 title: API Reference
-description: Build integrations with the UnifiedHytale API.
+description: Programmatically manage your Hytale projects, upload new versions, and integrate UnifiedHytale into your development workflow.
 ---
 
-The UnifiedHytale API allows developers to programmatically access platform data and build integrations.
+Programmatically manage your Hytale projects, upload new versions, and integrate UnifiedHytale into your development workflow.
+
+## Authentication
+
+### API Tokens
+
+All API requests require authentication using an API token. You can create and manage API tokens from your [dashboard](https://unifiedhytale.com/dashboard).
+
+```
+Authorization: Bearer YOUR_API_TOKEN
+```
+
+### Security Best Practices
+
+- Never commit API tokens to version control
+- Store tokens securely in environment variables
+- Rotate tokens regularly and revoke unused ones
+- Use different tokens for different environments (dev, prod)
 
 ## Base URL
 
 ```
-https://api.unifiedhytale.com/v1
+https://www.unifiedhytale.com/api/v1
 ```
 
-## Authentication
+## Rate Limits
 
-Most endpoints require authentication via API key. See [Authentication](/docs/api/authentication) for details.
+API requests are currently unlimited, but fair use is expected. We reserve the right to rate limit excessive usage.
 
-## Response Format
+## Error Codes
 
-All responses are JSON:
-
-```json
-{
-  "success": true,
-  "data": { ... },
-  "meta": {
-    "page": 1,
-    "limit": 20,
-    "total": 100
-  }
-}
-```
-
-Error responses:
-
-```json
-{
-  "success": false,
-  "error": {
-    "code": "UNAUTHORIZED",
-    "message": "Invalid API key"
-  }
-}
-```
+| Code | Description |
+|------|-------------|
+| 400 | Bad Request - Invalid parameters |
+| 401 | Unauthorized - Invalid or missing API token |
+| 403 | Forbidden - You don't own this resource |
+| 404 | Not Found - Resource doesn't exist |
+| 500 | Internal Server Error - Something went wrong on our end |
 
 ## Available Endpoints
 
-### Projects
+- [Version Management](/api/versions) - List, create, update, and delete versions
+- [License Verification](/api/licenses) - Verify license keys from your plugins
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/projects` | GET | List all projects |
-| `/projects/:slug` | GET | Get project details |
-| `/projects/:slug/versions` | GET | List project versions |
-| `/projects/:slug/download` | GET | Get download URL |
+## Support
 
-### Users
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/users/:username` | GET | Get user profile |
-| `/users/:username/projects` | GET | List user's projects |
-
-### Servers
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/servers` | GET | List all servers |
-| `/servers/:id` | GET | Get server details |
-
-### License Verification
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/licenses/verify` | POST | Verify a license key |
-
-## SDKs
-
-Official SDKs are coming soon for:
-- JavaScript/TypeScript
-- Python
-- Java
-- C#
-
-## Need Help?
-
-- Check the [rate limits](/docs/api/rate-limits)
-- Join our [Discord](https://unifiedhytale.com/discord) for developer support
-- Email [api@unifiedhytale.com](mailto:api@unifiedhytale.com)
+Need help? Join our [Discord community](https://unifiedhytale.com/discord) or [contact support](https://unifiedhytale.com/support).
