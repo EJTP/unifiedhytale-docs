@@ -1,0 +1,50 @@
+{
+  "name": "unifiedhytale-docs",
+  "version": "1.0.0",
+  "private": false,
+  "description": "Official documentation for UnifiedHytale - the ultimate Hytale community platform",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UnifiedHytale/docs.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "start": "next start",
+    "types:check": "fumadocs-mdx && tsc --noEmit",
+    "postinstall": "fumadocs-mdx",
+    "lint": "next lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "@mdx-js/mdx": "^3.1.1",
+    "@radix-ui/react-scroll-area": "^1.2.10",
+    "@radix-ui/react-slot": "^1.2.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "fumadocs-core": "^16.2.3",
+    "fumadocs-mdx": "^14.1.0",
+    "fumadocs-ui": "^16.2.3",
+    "lucide-react": "^0.559.0",
+    "next": "^16.0.10",
+    "next-themes": "^0.4.6",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "tailwind-merge": "^3.4.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.17",
+    "@types/mdx": "^2.0.13",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.1",
+    "eslint-config-next": "^16.0.10",
+    "postcss": "^8.5.6",
+    "prettier": "^3.7.4",
+    "tailwindcss": "^4.1.17",
+    "typescript": "^5.9.3"
+  }
+}

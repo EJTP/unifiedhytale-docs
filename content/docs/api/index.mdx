@@ -1,0 +1,89 @@
+---
+title: API Reference
+description: Build integrations with the UnifiedHytale API.
+---
+
+The UnifiedHytale API allows developers to programmatically access platform data and build integrations.
+
+## Base URL
+
+```
+https://api.unifiedhytale.com/v1
+```
+
+## Authentication
+
+Most endpoints require authentication via API key. See [Authentication](/docs/api/authentication) for details.
+
+## Response Format
+
+All responses are JSON:
+
+```json
+{
+  "success": true,
+  "data": { ... },
+  "meta": {
+    "page": 1,
+    "limit": 20,
+    "total": 100
+  }
+}
+```
+
+Error responses:
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "UNAUTHORIZED",
+    "message": "Invalid API key"
+  }
+}
+```
+
+## Available Endpoints
+
+### Projects
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/projects` | GET | List all projects |
+| `/projects/:slug` | GET | Get project details |
+| `/projects/:slug/versions` | GET | List project versions |
+| `/projects/:slug/download` | GET | Get download URL |
+
+### Users
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/users/:username` | GET | Get user profile |
+| `/users/:username/projects` | GET | List user's projects |
+
+### Servers
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/servers` | GET | List all servers |
+| `/servers/:id` | GET | Get server details |
+
+### License Verification
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/licenses/verify` | POST | Verify a license key |
+
+## SDKs
+
+Official SDKs are coming soon for:
+- JavaScript/TypeScript
+- Python
+- Java
+- C#
+
+## Need Help?
+
+- Check the [rate limits](/docs/api/rate-limits)
+- Join our [Discord](https://unifiedhytale.com/discord) for developer support
+- Email [api@unifiedhytale.com](mailto:api@unifiedhytale.com)

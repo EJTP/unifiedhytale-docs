@@ -1,0 +1,81 @@
+---
+title: Managing Versions
+description: How to upload new versions and manage version history.
+---
+
+Keep your projects up to date with proper version management.
+
+## Uploading New Versions
+
+1. Go to your project's page
+2. Click **"Upload Version"**
+3. Upload the new file
+4. Fill in version details
+
+### Version Details
+
+| Field | Description |
+|-------|-------------|
+| **Version Number** | Semantic versioning (e.g., 1.2.3) |
+| **Changelog** | What changed in this version |
+| **Game Versions** | Compatible Hytale versions |
+| **Release Type** | Release, Beta, or Alpha |
+
+## Semantic Versioning
+
+We recommend using [semantic versioning](https://semver.org/):
+
+```
+MAJOR.MINOR.PATCH
+
+1.0.0 - Initial release
+1.1.0 - New features (backwards compatible)
+1.1.1 - Bug fixes
+2.0.0 - Breaking changes
+```
+
+## Changelogs
+
+Good changelogs include:
+
+- **Added** - New features
+- **Changed** - Changes to existing functionality
+- **Fixed** - Bug fixes
+- **Removed** - Removed features
+- **Security** - Security fixes
+
+### Example Changelog
+
+```markdown
+## Version 1.2.0
+
+### Added
+- New configuration options
+- Support for custom textures
+
+### Fixed
+- Crash when loading large worlds
+- Memory leak in particle system
+
+### Changed
+- Improved performance by 20%
+```
+
+## Release Types
+
+| Type | Description |
+|------|-------------|
+| **Release** | Stable, production-ready |
+| **Beta** | Feature-complete, may have bugs |
+| **Alpha** | Early development, experimental |
+
+## Managing Old Versions
+
+- Old versions remain downloadable
+- Set any version as "Featured" (default download)
+- Mark versions as deprecated with a warning message
+- Delete versions that should no longer be available
+
+<Callout type="info">
+Users can always access previous versions from the Versions tab on your project page.
+</Callout>

@@ -1,0 +1,27 @@
+{
+  "title": "Documentation",
+  "pages": [
+    "index",
+    "---Getting Started---",
+    "getting-started/account",
+    "getting-started/browsing",
+    "getting-started/downloading",
+    "---For Creators---",
+    "creators/becoming-creator",
+    "creators/uploading",
+    "creators/project-types",
+    "creators/markdown",
+    "---Project Management---",
+    "management/editing",
+    "management/versions",
+    "management/requirements",
+    "---Moderation---",
+    "moderation/queue",
+    "moderation/approval",
+    "---Developers---",
+    "api/index",
+    "api/authentication",
+    "api/endpoints",
+    "api/rate-limits"
+  ]
+}
