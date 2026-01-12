@@ -22,6 +22,12 @@
     "api/index",
     "api/versions",
     "api/licenses",
-    "api/cicd"
+    "api/cicd",
+    "---Partner API---",
+    "partners/index",
+    "partners/projects",
+    "partners/user",
+    "partners/downloads",
+    "partners/oauth"
   ]
 }

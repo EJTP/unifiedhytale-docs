@@ -1,0 +1,54 @@
+---
+title: Partner API
+description: API for hosting providers to integrate mod installation with UnifiedHytale.
+---
+
+API for hosting providers to integrate mod installation with UnifiedHytale.
+
+## Overview
+
+This API enables hosting providers to:
+
+- **Browse mods** - Show available mods to users in your hosting panel
+- **Link accounts** - Connect user's UnifiedHytale account via OAuth
+- **Check licenses** - Verify which paid mods users own
+- **Download mods** - Install mods directly to servers
+
+## Getting Started
+
+Contact **support@unifiedhytale.com** to become a partner. You'll receive:
+
+- **Client ID** — Your API key (`uh_partner_xxx`)
+- **Client Secret** — 96-character hex string for OAuth token exchange
+
+## Authentication
+
+### Public Endpoints (browse mods)
+
+```
+X-Partner-Key: uh_partner_xxx
+```
+
+### User Endpoints (licenses, downloads)
+
+```
+X-Partner-Key: uh_partner_xxx
+X-User-Token: uh_oauth_xxx
+```
+
+## Base URL
+
+```
+https://www.unifiedhytale.com/api
+```
+
+## Endpoints
+
+- [Projects](/partners/projects) - Browse and search mods
+- [User Data](/partners/user) - Get connected user info and licenses
+- [Downloads](/partners/downloads) - Download mod files
+- [OAuth](/partners/oauth) - Account linking flow
+
+## Support
+
+Need help integrating? Contact **support@unifiedhytale.com** or join our [Discord](https://unifiedhytale.com/discord).

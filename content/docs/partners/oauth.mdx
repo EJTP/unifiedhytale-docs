@@ -1,0 +1,201 @@
+---
+title: OAuth
+description: Link user accounts with OAuth 2.0.
+---
+
+Connect users' UnifiedHytale accounts to access their licenses and enable paid mod downloads.
+
+## OAuth Flow
+
+1. Redirect user to authorization URL
+2. User approves access on UnifiedHytale
+3. User redirected back with authorization code
+4. Exchange code for access token
+5. Use access token for API requests
+
+## Scopes
+
+| Scope | Description |
+|-------|-------------|
+| `read:projects` | Browse public projects |
+| `read:licenses` | View user's purchased licenses |
+| `download` | Download mod files |
+
+---
+
+## Start Authorization
+
+```
+GET /oauth/authorize
+```
+
+Redirect users here to link their UnifiedHytale account.
+
+### Query Parameters
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `client_id` | Yes | Your Partner API key |
+| `redirect_uri` | Yes | URL to redirect after authorization |
+| `response_type` | Yes | Must be `code` |
+| `scope` | No | Space-separated scopes |
+| `state` | Yes | CSRF token (you generate this) |
+
+### Example
+
+```
+https://www.unifiedhytale.com/oauth/authorize?
+  client_id=uh_partner_xxx&
+  redirect_uri=https://yoursite.com/callback&
+  response_type=code&
+  scope=read:projects read:licenses download&
+  state=random-csrf-token
+```
+
+After user approves, they're redirected to:
+```
+https://yoursite.com/callback?code=AUTH_CODE&state=random-csrf-token
+```
+
+---
+
+## Exchange Code for Tokens
+
+```
+POST /oauth/token
+```
+
+Exchange the authorization code for access and refresh tokens.
+
+### Request Body
+
+```json
+{
+  "grant_type": "authorization_code",
+  "code": "AUTH_CODE_FROM_CALLBACK",
+  "client_id": "uh_partner_xxx",
+  "client_secret": "your-96-char-secret",
+  "redirect_uri": "https://yoursite.com/callback"
+}
+```
+
+### Response
+
+```json
+{
+  "access_token": "uh_oauth_xxx",
+  "token_type": "Bearer",
+  "expires_in": 604800,
+  "refresh_token": "uh_refresh_xxx",
+  "scope": "read:projects read:licenses download"
+}
+```
+
+Access tokens expire in 7 days (604800 seconds).
+
+---
+
+## Refresh Access Token
+
+```
+POST /oauth/refresh
+```
+
+Get a new access token using a refresh token.
+
+### Request Body
+
+```json
+{
+  "grant_type": "refresh_token",
+  "refresh_token": "uh_refresh_xxx",
+  "client_id": "uh_partner_xxx",
+  "client_secret": "your-96-char-secret"
+}
+```
+
+### Response
+
+```json
+{
+  "access_token": "uh_oauth_new_xxx",
+  "token_type": "Bearer",
+  "expires_in": 604800,
+  "refresh_token": "uh_refresh_new_xxx",
+  "scope": "read:projects read:licenses download"
+}
+```
+
+---
+
+## Revoke Token
+
+```
+POST /oauth/revoke
+```
+
+Revoke an access or refresh token when user disconnects their account.
+
+### Request Body
+
+```json
+{
+  "token": "uh_oauth_xxx",
+  "token_type_hint": "access_token",
+  "client_id": "uh_partner_xxx",
+  "client_secret": "your-96-char-secret"
+}
+```
+
+### Response
+
+```json
+{
+  "success": true
+}
+```
+
+---
+
+## Full Integration Example
+
+```javascript
+// 1. Generate login URL
+function getLoginUrl(state) {
+  const params = new URLSearchParams({
+    client_id: process.env.PARTNER_KEY,
+    redirect_uri: 'https://yoursite.com/callback',
+    response_type: 'code',
+    scope: 'read:projects read:licenses download',
+    state: state
+  });
+  return `https://www.unifiedhytale.com/oauth/authorize?${params}`;
+}
+
+// 2. Handle callback
+async function handleCallback(code) {
+  const response = await fetch('https://www.unifiedhytale.com/oauth/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      grant_type: 'authorization_code',
+      code: code,
+      client_id: process.env.PARTNER_KEY,
+      client_secret: process.env.PARTNER_SECRET,
+      redirect_uri: 'https://yoursite.com/callback'
+    })
+  });
+  return response.json();
+}
+
+// 3. Use tokens for API requests
+async function getUserLicenses(accessToken) {
+  const response = await fetch('https://www.unifiedhytale.com/api/v1/me/licenses', {
+    headers: {
+      'X-Partner-Key': process.env.PARTNER_KEY,
+      'X-User-Token': accessToken
+    }
+  });
+  return response.json();
+}
+```

@@ -1,0 +1,156 @@
+---
+title: Projects
+description: Browse and search mods available on UnifiedHytale.
+---
+
+Browse and search approved mods with filtering and pagination.
+
+## List Projects
+
+```
+GET /v1/public/projects
+```
+
+### Headers
+
+```
+X-Partner-Key: uh_partner_xxx
+```
+
+### Query Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `type` | string | - | Filter by type: `plugin`, `data-pack`, `asset-pack`, `world`, `prefab`, `modpack` |
+| `category` | string | - | Filter by category slug (comma-separated) |
+| `search` | string | - | Search in name and summary |
+| `sort` | string | `trending` | Sort by: `downloads`, `likes`, `newest`, `updated`, `trending` |
+| `page` | integer | 1 | Page number |
+| `limit` | integer | 24 | Results per page (max 100) |
+
+### Example Request
+
+```bash
+curl "https://www.unifiedhytale.com/api/v1/public/projects?type=plugin&sort=downloads&limit=10" \
+  -H "X-Partner-Key: uh_partner_xxx"
+```
+
+### Response
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "uuid",
+      "slug": "awesome-plugin",
+      "name": "Awesome Plugin",
+      "summary": "An awesome plugin for Hytale",
+      "type": "plugin",
+      "icon_url": "https://...",
+      "downloads_count": 1500,
+      "likes_count": 120,
+      "is_featured": true,
+      "published_at": "2025-01-01T00:00:00Z",
+      "updated_at": "2025-01-15T00:00:00Z",
+      "has_free_plan": true,
+      "requires_license": false,
+      "owner": {
+        "id": "uuid",
+        "username": "creator",
+        "display_name": "Creator Name",
+        "avatar_url": "https://..."
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 150,
+    "total_pages": 15
+  }
+}
+```
+
+---
+
+## Get Project Details
+
+```
+GET /v1/public/projects/{slug}
+```
+
+Get full project info including pricing, versions, and gallery.
+
+### Headers
+
+```
+X-Partner-Key: uh_partner_xxx
+```
+
+### Example Request
+
+```bash
+curl "https://www.unifiedhytale.com/api/v1/public/projects/awesome-plugin" \
+  -H "X-Partner-Key: uh_partner_xxx"
+```
+
+### Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "uuid",
+    "slug": "awesome-plugin",
+    "name": "Awesome Plugin",
+    "summary": "An awesome plugin for Hytale",
+    "description": "Full markdown description...",
+    "type": "plugin",
+    "icon_url": "https://...",
+    "banner_url": "https://...",
+    "source_url": "https://github.com/...",
+    "wiki_url": null,
+    "discord_url": "https://discord.gg/...",
+    "downloads_count": 1500,
+    "likes_count": 120,
+    "is_featured": true,
+    "has_free_plan": true,
+    "requires_license": false,
+    "published_at": "2025-01-01T00:00:00Z",
+    "updated_at": "2025-01-15T00:00:00Z",
+    "categories": [...],
+    "pricing_plans": [
+      {
+        "id": "uuid",
+        "name": "Free",
+        "price": 0,
+        "is_free": true,
+        "features": ["Basic features"]
+      },
+      {
+        "id": "uuid",
+        "name": "Premium",
+        "price": 9.99,
+        "is_free": false,
+        "features": ["All features", "Priority support"]
+      }
+    ],
+    "latest_version": {
+      "id": "uuid",
+      "version_number": "1.2.0",
+      "version_name": "Big Update",
+      "release_channel": "stable",
+      "game_versions": ["1.0", "1.1"],
+      "file_size": 1048576,
+      "created_at": "2025-01-15T00:00:00Z"
+    },
+    "owner": {
+      "id": "uuid",
+      "username": "creator",
+      "display_name": "Creator Name",
+      "avatar_url": "https://..."
+    }
+  }
+}
+```

@@ -1,0 +1,101 @@
+---
+title: Downloads
+description: Download mod files to install on servers.
+---
+
+Get signed download URLs to install mods directly to servers.
+
+## Download Version
+
+```
+GET /v1/download/{versionId}
+```
+
+Get a signed download URL for a mod version.
+
+### Authentication
+
+- **Free mods:** Partner key only
+- **Paid mods:** Partner key + OAuth token with valid license
+
+### Headers
+
+For free mods:
+```
+X-Partner-Key: uh_partner_xxx
+```
+
+For paid mods:
+```
+X-Partner-Key: uh_partner_xxx
+X-User-Token: uh_oauth_xxx
+```
+
+### Path Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `versionId` | uuid | The version ID to download |
+
+### Example Request
+
+```bash
+curl "https://www.unifiedhytale.com/api/v1/download/version-uuid" \
+  -H "X-Partner-Key: uh_partner_xxx" \
+  -H "X-User-Token: uh_oauth_xxx"
+```
+
+### Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "download_url": "https://cdn.unifiedhytale.com/...",
+    "file_name": "awesome-plugin-1.2.0.jar",
+    "file_size": 1048576,
+    "expires_in": 300
+  }
+}
+```
+
+The `download_url` is a signed URL that expires in 5 minutes (300 seconds).
+
+### Error Responses
+
+| Code | Description |
+|------|-------------|
+| 401 | OAuth required for paid content |
+| 403 | No valid license for this mod |
+| 404 | Version not found |
+
+## Integration Example
+
+```javascript
+async function installMod(versionId, userToken) {
+  // Get download URL
+  const response = await fetch(
+    `https://www.unifiedhytale.com/api/v1/download/${versionId}`,
+    {
+      headers: {
+        'X-Partner-Key': process.env.PARTNER_KEY,
+        'X-User-Token': userToken
+      }
+    }
+  );
+
+  const { data } = await response.json();
+
+  // Download the file
+  const fileResponse = await fetch(data.download_url);
+  const fileBuffer = await fileResponse.arrayBuffer();
+
+  // Save to server's plugins folder
+  await fs.writeFile(
+    `/servers/${serverId}/plugins/${data.file_name}`,
+    Buffer.from(fileBuffer)
+  );
+
+  return data.file_name;
+}
+```

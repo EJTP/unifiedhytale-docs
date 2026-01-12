@@ -1,0 +1,115 @@
+---
+title: User Data
+description: Get connected user profile and licenses.
+---
+
+Access user data after they've connected their UnifiedHytale account via OAuth.
+
+## Get Connected User
+
+```
+GET /v1/me
+```
+
+Get the authenticated user's profile.
+
+### Headers
+
+```
+X-Partner-Key: uh_partner_xxx
+X-User-Token: uh_oauth_xxx
+```
+
+### Example Request
+
+```bash
+curl "https://www.unifiedhytale.com/api/v1/me" \
+  -H "X-Partner-Key: uh_partner_xxx" \
+  -H "X-User-Token: uh_oauth_xxx"
+```
+
+### Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "uuid",
+    "username": "player123",
+    "display_name": "Player Name",
+    "avatar_url": "https://...",
+    "is_creator": false,
+    "is_verified": false
+  }
+}
+```
+
+---
+
+## Get User Licenses
+
+```
+GET /v1/me/licenses
+```
+
+Get the user's purchased licenses. Requires `read:licenses` OAuth scope.
+
+### Headers
+
+```
+X-Partner-Key: uh_partner_xxx
+X-User-Token: uh_oauth_xxx
+```
+
+### Query Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `project_id` | uuid | Optional. Filter by specific project |
+
+### Example Request
+
+```bash
+curl "https://www.unifiedhytale.com/api/v1/me/licenses" \
+  -H "X-Partner-Key: uh_partner_xxx" \
+  -H "X-User-Token: uh_oauth_xxx"
+```
+
+### Response
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "uuid",
+      "license_key": "XXXX-XXXX-XXXX-XXXX",
+      "is_active": true,
+      "expires_at": null,
+      "server_id": "my-server-1",
+      "created_at": "2025-01-01T00:00:00Z",
+      "plan": {
+        "id": "uuid",
+        "name": "Premium",
+        "price": 9.99,
+        "is_free": false,
+        "features": ["All features", "Priority support"]
+      },
+      "project": {
+        "id": "uuid",
+        "slug": "awesome-plugin",
+        "name": "Awesome Plugin",
+        "icon_url": "https://...",
+        "type": "plugin"
+      }
+    }
+  ]
+}
+```
+
+### Error Responses
+
+| Code | Description |
+|------|-------------|
+| 401 | OAuth token required |
+| 403 | Missing `read:licenses` scope |
